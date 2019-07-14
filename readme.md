@@ -39,4 +39,4 @@ An example to use custom letters:
 
 ## License
 
-MIT [Chuang Yu<cyu9960@gmail.com>](https://github.com/cyyyu)
+MIT ([Chuang Yu <cyu9960@gmail.com>](https://github.com/cyyyu))
