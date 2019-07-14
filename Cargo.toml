@@ -3,6 +3,12 @@ name = "aart"
 version = "0.1.0"
 authors = ["Chuang Yu <cyu9960@gmail.com>"]
 edition = "2018"
+description = "Convert image to ascii art."
+homepage = "https://github.com/cyyyu/aart"
+repository = "https://github.com/cyyyu/aart"
+keywords = ["image", "ascii", "art"]
+license = "MIT"
+
 
 # See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
 
