@@ -2,7 +2,7 @@
 # It is not intended for manual editing.
 [[package]]
 name = "aart"
-version = "0.1.0"
+version = "0.1.1"
 dependencies = [
  "clap 2.33.0 (registry+https://github.com/rust-lang/crates.io-index)",
  "image 0.21.2 (registry+https://github.com/rust-lang/crates.io-index)",
