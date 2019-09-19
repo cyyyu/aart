@@ -4,36 +4,42 @@ extern crate rusttype;
 
 use clap::{App, Arg};
 use image::imageops::crop;
-use image::{DynamicImage, FilterType, GenericImageView, Pixel, Rgba};
+use image::{DynamicImage, GenericImageView, Rgba};
 use rusttype::{point, FontCollection, Scale};
 
-const FONT_SIZE: f32 = 18.0;
+static FONT_SIZE: f32 = 12.0;
+static THUMBNAIL_W: u32 = 40;
 
 fn main() {
     let matches = args();
-
     let image_path = matches.value_of("image").unwrap();
 
+    // open specified image, turn it into grayscale and resize to size: (THUMBNAIL_W, whatever)
     let img = image::open(image_path)
         .expect("Not a valid image file.")
-        .grayscale()
-        .resize(36, std::u32::MAX, FilterType::Triangle);
+        .thumbnail(THUMBNAIL_W, std::u32::MAX)
+        .grayscale();
 
-    let mut data: Vec<String> = vec![];
+    // chars that will be used on output image
     let letters = if let Some(letters) = matches.value_of("letters") {
+        // use specified chars
         letters.chars().collect()
     } else {
+        // default chars
         vec![' ', '·', '>', 'X']
     };
-    for (_x, y, pixel) in img.pixels() {
-        let c_idx = pixel.to_luma().data[0];
-        let c = letters[c_idx as usize / (255 / letters.len())];
+    let letters_len = letters.len() as f32;
 
-        if data.get(y as usize) == None {
-            data.push("".to_owned());
+    let mut data: Vec<String> = vec![];
+
+    let mut count_row = 0;
+    for p in img.raw_pixels() {
+        if count_row % THUMBNAIL_W == 0 {
+            data.push(String::from(""));
         }
-
-        data[y as usize].push(c);
+        let row = data.len() - 1;
+        data[row].push(letters[((p as f32 / 255.0) * letters_len) as usize]);
+        count_row += 1;
     }
 
     let font = Vec::from(include_bytes!("../fonts/Roboto/RobotoMono-Regular.ttf") as &[u8]);
